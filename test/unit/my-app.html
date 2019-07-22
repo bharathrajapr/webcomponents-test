@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>my-app</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../../node_modules/chai/chai.js"></script>
+    <script src="../../node_modules/mocha/mocha.js"></script>
+    <script src="../../node_modules/wct-mocha/wct-mocha.js"></script>
+  </head>
+  <body>
+    <test-fixture id="basic">
+      <template>
+        <my-app></my-app>
+      </template>
+    </test-fixture>
+
+    <script type="module">
+      import '@polymer/test-fixture';
+      import '../../src/components/my-app.js';
+
+      suite('my-app tests', function() {
+        let el;
+        setup(function() {
+          el = fixture('basic');
+          // Make tests wait until element is rendered.
+          return el.updateComplete;
+        });
+
+        test('page initial load', function() {
+            assert.equal(el._showImagesBool, [true, false, false]);
+            assert.equal(el._showLightBoxImgBool, [false, false, false]);
+            assert.equal(el._showModal, false);
+        });
+
+        test('clicking on the second image in the slide', function() {
+
+            const slideImages = el.shadowRoot.querySelectorAll('.section div img');
+            slideImages[1].click();
+
+            assert.equal(el._showImagesBool, [false, true, false]);
+            assert.equal(el._showLightBoxImgBool, [false, false, false]);
+            assert.equal(el._showModal, false);
+        });
+
+        test('clicking on the large image', function() {
+            const images = el.shadowRoot.querySelectorAll('.content img');
+            images[1].click();
+
+            assert.equal(el._showImagesBool, [false, true, false]);
+            assert.equal(el._showLightBoxImgBool, [false, true, false]);
+            assert.equal(el._showModal, true);
+        });
+
+        test('clicking on the light box version image', function() {
+            const lightBoxImages = el.shadowRoot.querySelectorAll('.modal-content img');
+            lightBoxImages[1].click();
+
+            assert.equal(el._showImagesBool, [false, true, false]);
+            assert.equal(el._showLightBoxImgBool, [false, true, false]);
+            assert.equal(el._showModal, false);
+        });
+      });
+    </script>
+  </body>
+</html>
