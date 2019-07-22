@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>My app</title>
+    <script>
+      window.process = { env: { NODE_ENV: 'production' } };
+    </script>
+  </head>
+  <body>
+    <my-app appTitle="my app"></my-app>
+    <noscript>
+      Please enable JavaScript to view this website.
+    </noscript>
+    <script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script type="module" src="src/components/my-app.js"></script>
+  </body>
+</html>
